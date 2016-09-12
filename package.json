@@ -28,7 +28,8 @@
     "react-addons-test-utils": "^15.3.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.1"
+    "webpack-dev-server": "^1.15.1",
+    "whatwg-fetch": "^1.0.0"
   },
   "babel": {
     "presets": [
@@ -39,9 +40,14 @@
   },
   "dependencies": {
     "history": "^4.0.0-1",
+    "phoenix": "^1.2.0",
     "react": "^15.3.1",
     "react-css-modules": "^3.7.10",
     "react-dom": "^15.3.1",
-    "react-router": "^2.7.0"
+    "react-redux": "^4.4.5",
+    "react-router": "^2.7.0",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   }
 }

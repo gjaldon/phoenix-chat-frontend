@@ -5,6 +5,7 @@ var cssnext = require('postcss-cssnext')
 module.exports = {
   devtool: 'eval',
   entry: [
+    'whatwg-fetch',
     'webpack-dev-server/client?http://localhost:3000',
     './app/index'
   ],
@@ -32,6 +33,10 @@ module.exports = {
     return [cssnext]
   },
   resolve: {
-    extensions: [ '', '.js' ]
-  }
+    extensions: [ '', '.js' ],
+    fallback: path.join(__dirname, "node_modules")
+  },
+  resolveLoader: {
+    fallback: path.join(__dirname, "node_modules")
+  },
 }
