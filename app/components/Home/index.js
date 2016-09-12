@@ -1,7 +1,7 @@
 import React from "react"
 import cssModules from "react-css-modules"
 import { connect } from "react-redux"
-import PhoenixChat from 'phoenix-chat'
+import PhoenixChat from "phoenix-chat"
 import style from "./style.css"
 
 import { default as Signup } from "../Signup"

@@ -12,7 +12,7 @@ Actions.userAuth = function userAuth() {
   .then((res) => {
     console.log(res)
     return res.json()
-   })
+  })
   .then((res) => {
     console.log(res)
     dispatch({
