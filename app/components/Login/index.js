@@ -9,15 +9,23 @@ import { default as Button } from "../Button"
 export class Login extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      email: "",
+      password: ""
+    }
     this.submit = this.submit.bind(this)
   }
 
   submit() {
     const user = {
-      email: document.getElementById("signup-email").value,
-      password: document.getElementById("signup-password").value
+      email: this.state.email,
+      password: this.state.password
     }
     this.props.dispatch(Actions.userLogin(user))
+  }
+
+  handleChange(input, e) {
+    this.setState({ [input]: e.target.value })
   }
 
   render() {
@@ -26,21 +34,23 @@ export class Login extends React.Component {
         <div className={style.form}>
           <div className={style.inputGroup}>
             <input
+              value={this.state.email}
+              onChange={ e => { this.handleChange("email", e) }}
               placeholder="Email"
               className={style.input}
-              type="text"
-              id="signup-email" />
+              type="text" />
           </div>
           <div className={style.inputGroup}>
             <input
+              value={this.state.password}
+              onChange={ e => { this.handleChange("password", e) }}
               placeholder="Password"
               className={style.input}
-              type="password"
-              id="signup-password" />
+              type="password" />
           </div>
           <Button
             onClick={this.submit}
-            style={{ width: "100%" }}
+            _style={{ width: "100%" }}
             type="primary">
             Submit
           </Button>

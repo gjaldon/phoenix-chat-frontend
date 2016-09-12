@@ -1,7 +1,7 @@
 const Actions = {}
 
 Actions.userAuth = function userAuth() {
-  return dispatch => fetch("http://localhost:4000/auth/me", {
+  return dispatch => fetch(`${process.env.API_HOST}/auth/me`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -24,7 +24,7 @@ Actions.userAuth = function userAuth() {
 }
 
 Actions.userNew = function userNew(user) {
-  return dispatch => fetch("http://localhost:4000/api/users", {
+  return dispatch => fetch(`${process.env.API_HOST}/api/users`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -53,7 +53,7 @@ Actions.userNew = function userNew(user) {
 }
 
 Actions.userLogin = function userLogin(user) {
-  return dispatch => fetch("http://localhost:4000/auth/identity/callback", {
+  return dispatch => fetch(`${process.env.API_HOST}/auth/identity/callback`, {
     method: "POST",
     headers: {
       Accept: "application/json",

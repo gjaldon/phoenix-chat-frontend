@@ -6,19 +6,43 @@ import Actions from "../../redux/actions"
 
 import { default as Button } from "../Button"
 
+const validInput = { borderBottom: "3px solid #4CAF50" }
+const invalidInput = { borderBottom: "3px solid #F44336" }
+
 export class Signup extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+      passwordVerify: ""
+    }
     this.submit = this.submit.bind(this)
   }
 
   submit() {
     const user = {
-      username: document.getElementById("signup-username").value,
-      email: document.getElementById("signup-email").value,
-      password: document.getElementById("signup-password").value
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password
     }
     this.props.dispatch(Actions.userNew(user))
+  }
+
+  handleChange(input, e) {
+    this.setState({ [input]: e.target.value })
+  }
+
+  validateEmail() {
+    if (this.state.email.length < 1) return {}
+    return /@/.test(this.state.email) ? validInput : invalidInput
+  }
+
+  validatePassword() {
+    if (this.state.password.length < 1) return {}
+    if (this.state.password.length < 6) return invalidInput
+    return this.state.password === this.state.passwordVerify ? validInput : invalidInput
   }
 
   render() {
@@ -27,35 +51,41 @@ export class Signup extends React.Component {
         <div className={style.form}>
           <div className={style.inputGroup}>
             <input
+              onChange={e => { this.handleChange("username", e) }}
+              value={this.state.username}
               placeholder="Username"
               className={style.input}
-              type="text"
-              id="signup-username" />
+              type="text" />
           </div>
           <div className={style.inputGroup}>
             <input
+              onChange={e => { this.handleChange("email", e) }}
+              style={this.validateEmail()}
+              value={this.state.email}
               placeholder="Email"
               className={style.input}
-              type="text"
-              id="signup-email" />
+              type="text" />
           </div>
           <div className={style.inputGroup}>
             <input
+              onChange={e => { this.handleChange("password", e) }}
+              value={this.state.password}
               placeholder="Password"
               className={style.input}
-              type="password"
-              id="signup-password" />
+              type="password" />
           </div>
           <div className={style.inputGroup}>
             <input
+              onChange={e => { this.handleChange("passwordVerify", e) }}
+              style={this.validatePassword()}
+              value={this.state.passwordVerify}
               placeholder="Verify Password"
               className={style.input}
-              type="password"
-              id="signup-verify-password" />
+              type="password" />
           </div>
           <Button
             onClick={this.submit}
-            style={{ width: "100%" }}
+            _style={{ width: "100%" }}
             type="primary">
             Submit
           </Button>

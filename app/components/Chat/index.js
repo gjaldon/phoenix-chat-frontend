@@ -13,7 +13,8 @@ export class Chat extends React.Component {
       presences: {},
       messages: [],
       input: "",
-      currentRoom: ""
+      currentRoom: null,
+      lobbyList: []
     }
     this.changeChatroom = this.changeChatroom.bind(this)
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
@@ -22,9 +23,14 @@ export class Chat extends React.Component {
 
   componentDidMount() {
     const params = this.props.user
-    this.socket = new Socket("ws://localhost:4000/socket", { params })
+    this.socket = new Socket(`${process.env.SOCKET_HOST}`, { params })
     this.socket.connect()
     this.configureAdminChannel()
+  }
+
+  componentWillUnmount() {
+    if (this.channel) this.channel.leave()
+    if (this.adminChannel) this.adminChannel.leave()
   }
 
   componentDidUpdate() {
@@ -70,10 +76,18 @@ export class Chat extends React.Component {
       this.setState({ presences })
     })
 
+    this.adminChannel.on("lobby_list", ({ uuid }) => {
+      if (!this.state.lobbyList.includes(uuid)) {
+        this.setState({ lobbyList: this.state.lobbyList.concat([uuid]) })
+      }
+    })
+
     this.adminChannel.join()
-      .receive("ok", () => {
+      .receive("ok", ({ lobby_list }) => {
         console.log("Succesfully joined the active_users topic.")
+        this.setState({ lobbyList: lobby_list })
       })
+
   }
 
   configureRoomChannel(room) {
@@ -94,13 +108,33 @@ export class Chat extends React.Component {
     })
   }
 
+  renderEmpty() {
+    if (this.state.currentRoom) { return null }
+    return (
+      <div className={style.empty}>
+        No chat selected
+      </div>
+    )
+  }
+
   renderMessages() {
-    return this.state.messages.map(({ body, id }, i) => {
+    return this.state.messages.map(({ body, id, from }, i) => {
+      if (from === this.props.user.id) {
+        return (
+          <div
+            className={style.message}
+            key={id}>
+            Me: { body }
+          </div>
+        )
+      }
+      const user = from.length === 36 ? from.substring(0, 10) : from
+      const msg = `${user}: ${body}`
       return (
         <div
-          ref={ref => { this[`chatMessage:${i}`] = ref }}
+          className={style.message}
           key={id}>
-          { body }
+          { msg }
         </div>
       )
     })
@@ -122,11 +156,13 @@ export class Chat extends React.Component {
       <div>
         <Sidebar
           presences={this.state.presences}
-          onRoomClick={this.changeChatroom} />
+          onRoomClick={this.changeChatroom}
+          lobbyList={this.state.lobbyList} />
         <div className={style.chatWrapper}>
           <div
             ref={ref => { this.chatContainer = ref }}
             className={style.chatContainer}>
+            { this.renderEmpty() }
             { this.renderMessages() }
           </div>
           { this.renderInput() }
