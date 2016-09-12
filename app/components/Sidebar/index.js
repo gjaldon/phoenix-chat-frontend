@@ -16,7 +16,8 @@ export const Sidebar = props => {
     .map(({ id }) => {
       return (
         <div
-          key={id}>
+          key={id}
+          onClick={() => { props.onRoomClick(id) }}>
           { id }
         </div>
       )

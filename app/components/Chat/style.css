@@ -1,3 +1,27 @@
 .chatWrapper {
   margin-left: 300px;
+  height: 100vh;
+  position: relative;
+  width: calc(100vw - 300px);
+  padding-top: 60px;
+}
+
+.chatContainer {
+  height: calc(100vh - 120px);
+  position: relative;
+  overflow-y: scroll;
+}
+
+.input {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  line-height: 40px;
+  font-size: 20px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding-left: 10px;
+  color: #333;
 }
