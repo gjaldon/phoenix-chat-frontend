@@ -4,10 +4,16 @@ import { shallow } from "enzyme"
 
 import { Home } from "./"
 
+const props = {
+  user: {
+    email: "foo"
+  }
+}
+
 describe("<Home />", () => {
   it("should render", () => {
     const renderedComponent = shallow(
-      <Home />
+      <Home {...props} />
     )
     expect(renderedComponent.is("div")).toEqual(true)
   })

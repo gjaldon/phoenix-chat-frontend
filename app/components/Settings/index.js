@@ -29,7 +29,6 @@ export class Settings extends React.Component {
   }
 
   renderOrganization() {
-    console.log(this.props.user)
     if (!this.props.user.public_key) {
       return (
         <div className={style.inputGroup}>

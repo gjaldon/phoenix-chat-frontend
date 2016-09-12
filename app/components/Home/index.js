@@ -47,7 +47,7 @@ export class Home extends React.Component {
     if (this.props.user.email) {
       return (
         <Chat>
-          <PhoenixChat />
+          <PhoenixChat token="YcjQpM878e" />
         </Chat>
       )
     }
@@ -57,7 +57,7 @@ export class Home extends React.Component {
         { this.state.formState === "signup" ? <Signup /> : null }
         { this.state.formState === "login" ? <Login /> : null }
         { this.renderToggleContent() }
-        <PhoenixChat />
+        <PhoenixChat token="YcjQpM878e" />
         <img
           role="presentation"
           className={style.circles}
