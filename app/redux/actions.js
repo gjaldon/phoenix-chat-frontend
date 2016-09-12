@@ -9,8 +9,12 @@ Actions.userAuth = function userAuth() {
       Authorization: `Bearer ${localStorage.token}` || ""
     }
   })
-  .then((res) => { return res.json() })
   .then((res) => {
+    console.log(res)
+    return res.json()
+   })
+  .then((res) => {
+    console.log(res)
     dispatch({
       type: "USER_AUTH",
       payload: {
@@ -30,9 +34,10 @@ Actions.userNew = function userNew(user) {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ user })
+    body: JSON.stringify(user)
   })
   .then((res) => {
+    console.log(res)
     return res.json()
   })
   .then((res) => {
@@ -76,6 +81,35 @@ Actions.userLogin = function userLogin(user) {
       }
     })
     dispatch(Actions.userAuth())
+  })
+  .catch((err) => {
+    console.warn(err)
+  })
+}
+
+Actions.organizationNew = function organizationNew(organization) {
+  return dispatch => fetch(`${API_HOST}/api/organizations`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ organization })
+  })
+  .then((res) => { return res.json() })
+  .then((res) => {
+    if (res.errors) {
+      return dispatch({
+        type: "ORGANIZATION_NEW_ERROR",
+        payload: {
+          errors: res.errors
+        }
+      })
+    }
+    dispatch({
+      type: "ORGANIZATION_NEW"
+    })
+    return dispatch(Actions.userAuth())
   })
   .catch((err) => {
     console.warn(err)

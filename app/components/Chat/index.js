@@ -2,6 +2,7 @@ import React from "react"
 import cssModules from "react-css-modules"
 import { Socket, Presence } from "phoenix"
 import { connect } from "react-redux"
+import { Link } from "react-router"
 import style from "./style.css"
 
 import Sidebar from "../Sidebar"
@@ -117,11 +118,58 @@ export class Chat extends React.Component {
     )
   }
 
+  renderHeader() {
+    if (!this.state.currentRoom) {
+      return (
+        <div className={style.header}>
+          <div />
+          <Link to="settings" className={style.settings}>
+            <img
+              alt="link to settings"
+              className={style.cog}
+              src="https://s3.amazonaws.com/learnphoenix-static-assets/icons/cog.png" />
+          </Link>
+        </div>
+      )
+    }
+
+    const avatar = {
+      height: "40px",
+      width: "40px",
+      background: "#ccc",
+      border: "1px solid #888",
+      borderRadius: "50%"
+    }
+
+    return (
+      <div className={style.header}>
+        <div className={style.identity}>
+          <div style={avatar} />
+          <div className={style.titleGroup}>
+            <h3 className={style.title}>
+              { this.state.currentRoom }
+            </h3>
+            <div className={style.lastActive}>
+              Last active: __ minutes ago
+            </div>
+          </div>
+        </div>
+        <Link to="settings" className={style.settings}>
+          <img
+            alt="link to settings"
+            className={style.cog}
+            src="https://s3.amazonaws.com/learnphoenix-static-assets/icons/cog.png" />
+        </Link>
+      </div>
+    )
+  }
+
   renderMessages() {
     return this.state.messages.map(({ body, id, from }, i) => {
       if (from === this.props.user.id) {
         return (
           <div
+            ref={ref => { this[`chatMessage:${i}`] = ref }}
             className={style.message}
             key={id}>
             Me: { body }
@@ -132,6 +180,7 @@ export class Chat extends React.Component {
       const msg = `${user}: ${body}`
       return (
         <div
+          ref={ref => { this[`chatMessage:${i}`] = ref }}
           className={style.message}
           key={id}>
           { msg }
@@ -159,6 +208,7 @@ export class Chat extends React.Component {
           onRoomClick={this.changeChatroom}
           lobbyList={this.state.lobbyList} />
         <div className={style.chatWrapper}>
+          { this.renderHeader() }
           <div
             ref={ref => { this.chatContainer = ref }}
             className={style.chatContainer}>

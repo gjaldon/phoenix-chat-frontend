@@ -3,7 +3,9 @@ import { combineReducers } from "redux"
 function user(state = {
   email: "",
   username: "",
-  id: ""
+  id: "",
+  public_key: "",
+  website: ""
 }, action) {
   switch (action.type) {
     case "USER_NEW":
@@ -22,7 +24,9 @@ function user(state = {
       return Object.assign({}, state, {
         email: action.payload.user.email,
         username: action.payload.user.username,
-        id: action.payload.user.id
+        id: action.payload.user.id,
+        public_key: action.payload.user.public_key,
+        website: action.payload.user.website
       })
     default: return state
   }

@@ -40,3 +40,50 @@
   color: #ccc;
   font-size: 2em;
 }
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgb(238, 238, 239);
+  border: 1px solid rgb(213, 213, 213);
+  height: 60px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.identity {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.titleGroup {
+  padding-left: 10px;
+}
+
+.title {
+  font-size: 1em;
+  font-weight: normal;
+  color: #333;
+}
+
+.lastActive {
+  padding-top: 6px;
+  color: #727272;
+  font-size: 0.8em;
+}
+
+.settings {
+  padding-right: 30px;
+}
+
+.cog {
+  filter: invert(40%);
+  height: 35px;
+}
