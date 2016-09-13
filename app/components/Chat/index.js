@@ -192,32 +192,36 @@ export class Chat extends React.Component {
   renderInput() {
     if (!this.state.currentRoom) { return null }
     return (
-      <input
-        value={this.state.input}
-        onKeyDown={this.handleMessageSubmit}
-        onChange={this.handleChange}
-        className={style.input} />
+      <div className={style.inputWrapper}>
+        <input
+          value={this.state.input}
+          onKeyDown={this.handleMessageSubmit}
+          onChange={this.handleChange}
+          className={style.input} />
+      </div>
     )
   }
 
   render() {
     return (
-      <div>
-        <Sidebar
-          presences={this.state.presences}
-          onRoomClick={this.changeChatroom}
-          lobbyList={this.state.lobbyList} />
-        <div className={style.chatWrapper}>
-          { this.renderHeader() }
-          <div
-            ref={ref => { this.chatContainer = ref }}
-            className={style.chatContainer}>
-            { this.renderEmpty() }
-            { this.renderMessages() }
+      <div className={style.chatWrapper}>
+        <div className={style.row}>
+          <Sidebar
+            presences={this.state.presences}
+            onRoomClick={this.changeChatroom}
+            lobbyList={this.state.lobbyList} />
+          <div className={style.column}>
+            { this.renderHeader() }
+            <div
+              ref={ref => { this.chatContainer = ref }}
+              className={style.messageContainer}>
+              { this.renderEmpty() }
+              { this.renderMessages() }
+            </div>
+            { this.renderInput() }
           </div>
-          { this.renderInput() }
+          { this.props.children }
         </div>
-        { this.props.children }
       </div>
     )
   }

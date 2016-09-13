@@ -46,9 +46,13 @@ export class Home extends React.Component {
   render() {
     if (this.props.user.email) {
       return (
-        <Chat>
-          <PhoenixChat token="YcjQpM878e" />
-        </Chat>
+        <div className={style.background}>
+          <div className={style.backgroundHeader} />
+          <div className={style.backgroundFooter} />
+          <Chat>
+            <PhoenixChat token="YcjQpM878e" />
+          </Chat>
+        </div>
       )
     }
     return (

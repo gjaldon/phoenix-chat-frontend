@@ -1,29 +1,51 @@
 .chatWrapper {
-  margin-left: 300px;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  width: calc(100vw - 300px);
-  padding-top: 60px;
+  height: 100vh;
+  width: 100vw;
+  z-index: 100;
+  padding: 2rem;
 }
 
-.chatContainer {
-  height: calc(100vh - 120px);
+.row {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  width: 100%;
+  border: 1px solid rgb(213, 213, 213);
+  background: white;
+}
+
+.column {
+  display: flex;
+  flex-flow: column nowrap;
   position: relative;
-  overflow-y: scroll;
+  width: 70%;
+}
+
+.inputWrapper {
+  padding: 0 20px 20px 20px;
+
 }
 
 .input {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: calc(100% - 40px);
+  width: 100%;
   line-height: 40px;
-  font-size: 20px;
+  font-size: 16px;
   outline: none;
   border: 1px solid #ccc;
   border-radius: 3px;
   padding-left: 10px;
   color: #333;
+}
+
+.messageContainer {
+  padding-top: 5px;
+  flex-grow: 1;
+  position: relative;
+  overflow-y: scroll;
 }
 
 .message {
@@ -42,18 +64,16 @@
 }
 
 .header {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  flex-flow: row nowrap;
   width: 100%;
   background: rgb(238, 238, 239);
-  border: 1px solid rgb(213, 213, 213);
+  border-bottom: 1px solid rgb(213, 213, 213);
   height: 60px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
 }
 
 .identity {

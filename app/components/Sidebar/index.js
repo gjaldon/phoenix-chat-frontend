@@ -29,7 +29,7 @@ export const Sidebar = (props) => {
     .filter(({ id }) => { return id.length === 36 })
     .sort(orderByActivity)
     .map(({ id, active }) => {
-      const newStyle = active ? { boxShadow: "inset 0px 0px 6px 4px rgba(58, 155, 207, 1)" } : {}
+      const newStyle = active ? { boxShadow: "inset 0px 0px 6px 4px rgba(58, 155, 207, 0.6)" } : {}
 
       return (
         <div
@@ -44,6 +44,9 @@ export const Sidebar = (props) => {
 
   return (
     <div className={style.sidebar}>
+      <div className={style.header}>
+        Search (coming soon)
+      </div>
       { renderList }
     </div>
   )
