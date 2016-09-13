@@ -88,7 +88,7 @@ Actions.userLogin = function userLogin(user) {
 }
 
 Actions.organizationNew = function organizationNew(organization) {
-  return dispatch => fetch(`${API_HOST}/api/organizations`, {
+  return dispatch => fetch(`${process.env.API_HOST}/api/organizations`, {
     method: "POST",
     headers: {
       Accept: "application/json",

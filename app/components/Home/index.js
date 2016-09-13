@@ -46,13 +46,9 @@ export class Home extends React.Component {
   render() {
     if (this.props.user.email) {
       return (
-        <div className={style.background}>
-          <div className={style.backgroundHeader} />
-          <div className={style.backgroundFooter} />
-          <Chat>
-            <PhoenixChat token="YcjQpM878e" />
-          </Chat>
-        </div>
+        <Chat>
+          <PhoenixChat token="uIJgBfoWk3" />
+        </Chat>
       )
     }
     return (
@@ -61,7 +57,7 @@ export class Home extends React.Component {
         { this.state.formState === "signup" ? <Signup /> : null }
         { this.state.formState === "login" ? <Login /> : null }
         { this.renderToggleContent() }
-        <PhoenixChat token="YcjQpM878e" />
+        <PhoenixChat token="uIJgBfoWk3" />
         <img
           role="presentation"
           className={style.circles}
