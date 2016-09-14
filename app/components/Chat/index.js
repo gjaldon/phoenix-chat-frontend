@@ -79,19 +79,11 @@ export class Chat extends React.Component {
     })
 
     this.adminChannel.on("lobby_list", (userPayload) => {
-      const { lobbyList } = this.state
-      const index = lobbyList.findIndex((user) => user.id === userPayload.id)
+      this.updateOrAddUserToLobbyList(userPayload)
+    })
 
-      if (index >= 0) {
-        const newLobbyList = [
-          ...lobbyList.slice(0, index),
-          userPayload,
-          ...lobbyList.slice(index + 1)
-        ]
-        this.setState({ lobbyList: newLobbyList })
-      } else {
-        this.setState({ lobbyList: lobbyList.concat([userPayload]) })
-      }
+    this.adminChannel.on("notifications", (userPayload) => {
+      this.notify(userPayload)
     })
 
     this.adminChannel.join()
@@ -100,6 +92,40 @@ export class Chat extends React.Component {
         this.setState({ lobbyList: lobby_list })
       })
 
+  }
+
+  notify(userPayload) {
+    if (userPayload.id === this.state.currentRoom) { return }
+
+    if (Notification.permission === "granted") {
+      const { name, last_message } = userPayload
+      new Notification(`${name}: ${last_message}`);
+    }
+
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission((permission) => {
+        if (permission === "granted") {
+          const { name, last_message } = userPayload
+          new Notification(`${name}: ${last_message}`);
+        }
+      })
+    }
+  }
+
+  updateOrAddUserToLobbyList(userPayload) {
+    const { lobbyList } = this.state
+    const index = lobbyList.findIndex((user) => user.id === userPayload.id)
+
+    if (index >= 0) {
+      const newLobbyList = [
+        ...lobbyList.slice(0, index),
+        userPayload,
+        ...lobbyList.slice(index + 1)
+      ]
+      this.setState({ lobbyList: newLobbyList })
+    } else {
+      this.setState({ lobbyList: lobbyList.concat([userPayload]) })
+    }
   }
 
   configureRoomChannel(room) {
@@ -114,9 +140,11 @@ export class Chat extends React.Component {
       .receive("error", () => { console.log(`Unable to join the ${room} chat room.`) })
 
     this.channel.on("message", payload => {
-      this.setState({
-        messages: this.state.messages.concat([payload])
-      })
+      if (this.state.currentRoom === payload.uuid) {
+        this.setState({
+          messages: [...this.state.messages, payload]
+        })
+      }
     })
   }
 
