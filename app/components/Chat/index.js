@@ -57,7 +57,8 @@ export class Chat extends React.Component {
   }
 
   changeChatroom(room) {
-    this.channel = this.socket.channel(`room:${room}`)
+    this.channel = this.socket.channel(`room:${room}`, { previousRoom: this.state.currentRoom })
+
     this.setState({
       messages: []
     })
