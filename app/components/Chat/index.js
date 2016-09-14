@@ -78,9 +78,19 @@ export class Chat extends React.Component {
       this.setState({ presences })
     })
 
-    this.adminChannel.on("lobby_list", ({ uuid }) => {
-      if (!this.state.lobbyList.includes(uuid)) {
-        this.setState({ lobbyList: this.state.lobbyList.concat([uuid]) })
+    this.adminChannel.on("lobby_list", (userPayload) => {
+      const { lobbyList } = this.state
+      const index = lobbyList.findIndex((user) => user.id === userPayload.id)
+
+      if (index >= 0) {
+        const newLobbyList = [
+          ...lobbyList.slice(0, index),
+          userPayload,
+          ...lobbyList.slice(index + 1)
+        ]
+        this.setState({ lobbyList: newLobbyList })
+      } else {
+        this.setState({ lobbyList: lobbyList.concat([userPayload]) })
       }
     })
 
