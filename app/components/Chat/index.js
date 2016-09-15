@@ -141,7 +141,7 @@ export class Chat extends React.Component {
       .receive("error", () => { console.log(`Unable to join the ${room} chat room.`) })
 
     this.channel.on("message", payload => {
-      if (this.state.currentRoom === payload.uuid) {
+      if (this.state.currentRoom === payload.room) {
         this.setState({
           messages: [...this.state.messages, payload]
         })
