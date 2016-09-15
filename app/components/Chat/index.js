@@ -57,7 +57,8 @@ export class Chat extends React.Component {
   }
 
   changeChatroom(room) {
-    this.channel = this.socket.channel(`room:${room}`, { previousRoom: this.state.currentRoom })
+    const payload = { previousRoom: this.state.currentRoom, nextRoom: room }
+    this.channel = this.socket.channel(`room:${room}`, payload)
 
     this.setState({
       messages: []
@@ -82,8 +83,8 @@ export class Chat extends React.Component {
       this.updateOrAddUserToLobbyList(userPayload)
     })
 
-    this.adminChannel.on("notifications", (userPayload) => {
-      this.notify(userPayload)
+    this.adminChannel.on("notifications", (messagePayload) => {
+      this.notify(messagePayload)
     })
 
     this.adminChannel.join()
@@ -94,19 +95,19 @@ export class Chat extends React.Component {
 
   }
 
-  notify(userPayload) {
-    if (userPayload.id === this.state.currentRoom) { return }
+  notify(messagePayload) {
+    if (messagePayload.id === this.state.currentRoom) { return }
 
     if (Notification.permission === "granted") {
-      const { name, last_message } = userPayload
-      new Notification(`${name}: ${last_message}`);
+      const { from, body } = messagePayload
+      new Notification(`${from}: ${body}`);
     }
 
     else if (Notification.permission !== 'denied') {
       Notification.requestPermission((permission) => {
         if (permission === "granted") {
-          const { name, last_message } = userPayload
-          new Notification(`${name}: ${last_message}`);
+          const { from, body } = messagePayload
+          new Notification(`${from}: ${body}`);
         }
       })
     }
