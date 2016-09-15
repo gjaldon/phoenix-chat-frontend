@@ -17,21 +17,24 @@ export const Sidebar = (props) => {
 
   const activeList = Presence.list(props.presences, listBy)
 
-  const lobbyList = props.lobbyList.map(({ id, name, avatar, last_viewed_by_admin_at }) => {
+  const lobbyList = props.lobbyList.map(
+    ({ id, name, avatar, last_viewed_by_admin_at, last_message, last_message_sent_at }) => {
     const active = activeList.includes(id)
     return {
       id,
       name,
       avatar,
       active,
-      lastViewedByAdminAt: last_viewed_by_admin_at
+      lastViewedByAdminAt: last_viewed_by_admin_at,
+      lastMessage: last_message,
+      lastMessageSentAt: last_message_sent_at
     }
   })
 
   const renderList = lobbyList
     .filter(({ id }) => { return id && id.length === 36 })
     .sort(orderByActivity)
-    .map(({ id, active, name, avatar, lastViewedByAdminAt }) => {
+    .map(({ id, active, name, avatar, lastMessageSentAt, lastMessage }) => {
       const newStyle = active ? { boxShadow: "inset 0px 0px 6px 4px rgba(58, 155, 207, 0.6)" } : {}
       const avatarStyle = { borderRadius: "50%", marginRight: "10px" }
 
@@ -42,8 +45,9 @@ export const Sidebar = (props) => {
           key={id}
           onClick={() => { props.onRoomClick(id) }}>
           <img src={avatar} style={avatarStyle} />
-          { name }
-          <span>{ lastViewedByAdminAt }</span>
+          <div>{ name }</div>
+          <div>{ lastMessage }</div>
+          <span>{ lastMessageSentAt }</span>
         </div>
       )
     })
